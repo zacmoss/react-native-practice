@@ -1,6 +1,60 @@
 import React from 'react';
 import { View, TextInput, Button } from 'react-native';
 
+class InputRow extends React.Component {
+    state = {
+        placeName: ""
+    }
+
+    placeNameChangedHandler = val => {
+        this.setState({
+            placeName: val
+        });
+    };
+    
+    placeSubmitHandler = () => {
+        if (this.state.placeName === "") {
+            return;
+        }
+
+        this.props.addPlace(this.state.placeName);
+    };
+    
+      render() {
+        return (
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="An awesome place"
+              value={this.state.placeName}
+              onChangeText={this.placeNameChangedHandler}
+              style={styles.placeInput}
+            />
+            <Button
+              title="Add"
+              style={styles.placeButton}
+              onPress={this.placeSubmitHandler}
+            />
+          </View>
+        );
+      }
+    }
+    
+    const styles = StyleSheet.create({
+      inputContainer: {
+        // flex: 1,
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+      },
+      placeInput: {
+        width: "70%"
+      },
+      placeButton: {
+        width: "30%"
+      }
+    });
+/*
 const InputRow = (props) => {
     return (
         <View style={props.style.inputContainer}>
@@ -17,5 +71,6 @@ const InputRow = (props) => {
         </View>
     )
 }
+*/
 
 export default InputRow;

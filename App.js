@@ -44,13 +44,12 @@ export default class App extends Component {
   }
   
   
-
+  /*
   placeNameChangedHandler = val => {
-    alert(val);
     this.setState(() => ({ placeName: val }))
   }
+  
   placeSubmitHandler = () => {
-    alert(this.state.test);
     if (this.state.placeName === "") {
       return;
     }
@@ -59,6 +58,25 @@ export default class App extends Component {
       return {
         places: prevState.places.concat(prevState.placeName)
       };
+    });
+  }
+  */
+  placeAddedHandler = placeName => {
+    this.setState(prevState => {
+      return {
+        places: prevState.places.concat({key: Math.random(), value: placeName})
+      }
+    })
+  }
+
+  placeDeletedHandler = index => {
+    this.setState(prevState => {
+      return {
+        places: prevState.places.filter(place, i => {
+          // if false, that place not returned and filtered out
+          return i !== index;
+        })
+      }
     });
   }
 
@@ -85,16 +103,19 @@ export default class App extends Component {
           />
         </View>
         */}
-          <InputRow
+          {/*<InputRow
             style={styles}
             placeNameState={this.state.placeName}
             changeTextFunc={this.placeNameChangedHandler}
             pressFunc={this.placeSubmitHandler}
-          />
-        <View style={styles.listContainer}>
+          />*/}
+        {/*<View style={styles.listContainer}>*/}
           {/*placesOutput*/}
-          <List places={this.state.places} />
-        </View>
+        {/*</View>*/}
+        <InputRow
+          addPlace={this.placeAddedHandler}
+        />
+        <List places={this.state.places} onItemDeleted={this.placeDeletedHandler} />
       </View>
     );
   }
@@ -108,21 +129,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  inputContainer: {
-    //flex: 1,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  placeInput: {
-    width: '70%'
-  },
-  placeButton: {
-    width: '30%'
-  },
-  listContainer: {
-    width: "100%"
   }
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, FlatList, StyleSheet } from 'react-native';
 
 import ListItem from '../ListItem/ListItem';
 
@@ -25,14 +25,34 @@ export default class List extends React.Component {
 */
 
 const List = (props) => {
-    const placesOutput = props.places.map((place, i) => {
-        return (
-            <ListItem key={i} placeName={place}/>
+    //const placesOutput = props.places.map((place, i) => {
+        /*return (
+            <ListItem
+                key={i}
+                placeName={place}
+                onListItemPressed={() => props.onItemDeleted(i)}
+            />
         )
-    })
+    })*/
     return (
-        <View>{placesOutput}</View>
+        //<ScrollView style={styles.listContainer}>{placesOutput}</ScrollView>
+        <FlatList
+            style={styles.listContainer}
+            data={props.places}
+            renderItem={() => (
+                <ListItem
+                placeName={place}
+                onListItemPressed={() => props.onItemDeleted(i)}
+            />
+            )}
+        />
     )
 }
+
+const styles = StyleSheet.create({
+    listContainer: {
+        width: "100%"
+      }
+});
 
 export default List;
