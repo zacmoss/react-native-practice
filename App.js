@@ -69,12 +69,12 @@ export default class App extends Component {
     })
   }
 
-  placeDeletedHandler = index => {
+  placeDeletedHandler = key => {
     this.setState(prevState => {
       return {
-        places: prevState.places.filter(place, i => {
+        places: prevState.places.filter(place  => {
           // if false, that place not returned and filtered out
-          return i !== index;
+          return place.key !== key;
         })
       }
     });

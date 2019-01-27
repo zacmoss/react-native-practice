@@ -39,10 +39,10 @@ const List = (props) => {
         <FlatList
             style={styles.listContainer}
             data={props.places}
-            renderItem={() => (
+            renderItem={(info) => (
                 <ListItem
-                placeName={place}
-                onListItemPressed={() => props.onItemDeleted(i)}
+                placeName={info.item.value}
+                onListItemPressed={() => props.onItemDeleted(info.item.key)}
             />
             )}
         />
