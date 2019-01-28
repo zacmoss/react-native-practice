@@ -12,6 +12,8 @@ import {Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native
 import InputRow from './src/components/InputRow/InputRow';
 import List from './src/components/List/List';
 import ListItem from './src/components/ListItem/ListItem';
+// below image import creates a javascript object which gets the path as a property
+import placeImage from './src/assets/pic1.jpg';
 
 /* Platform.select - very cool, but probably not needed for my intentions */
 /*
@@ -64,7 +66,11 @@ export default class App extends Component {
   placeAddedHandler = placeName => {
     this.setState(prevState => {
       return {
-        places: prevState.places.concat({key: Math.random(), value: placeName})
+        places: prevState.places.concat({
+          key: Math.random(),
+          name: placeName,
+          image: placeImage
+        })
       }
     })
   }
