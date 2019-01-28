@@ -12,6 +12,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native
 import InputRow from './src/components/InputRow/InputRow';
 import List from './src/components/List/List';
 import ListItem from './src/components/ListItem/ListItem';
+import PlaceDetail from './src/components/PlaceDetail';
 // below image import creates a javascript object which gets the path as a property
 import placeImage from './src/assets/pic1.jpg';
 
@@ -42,7 +43,8 @@ export default class App extends Component {
   
   state = {
     placeName: "",
-    places: []
+    places: [],
+    selectedPlace: null
   }
   
   
@@ -75,53 +77,51 @@ export default class App extends Component {
     })
   }
 
-  placeDeletedHandler = key => {
+  placeDeletedHandler = () => {
     this.setState(prevState => {
       return {
         places: prevState.places.filter(place  => {
           // if false, that place not returned and filtered out
-          return place.key !== key;
-        })
+          return place.key !== prevState.selectedPlace.key;
+        }),
+        selectedPlace: null
       }
     });
   }
 
+  modalClosedHandler = () => {
+    this.setState({
+      seletedPlace: null
+    })
+  }
+
+  placeSelectedHandler = key => {
+    this.setState(prevState => {
+      return {
+        selectedPlace: prevState.places.find(place => {
+          // returns true if this and then returns that item in an array
+          return place.key === key;
+        })
+      };
+    })
+   
+  }
+
   render() {
-    /*
-    const placesOutput = this.state.places.map((place, i) => {
-      <ListItem key={i} placeName={place} />
-    });
-    */
+    
     return (
       <View style={styles.container}>
-        {/*
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.placeInput}
-            
-            value={this.state.placeName}
-            onChangeText={this.placeNameChangedHandler}
-          />
-          <Button 
-            style={styles.placeButton}
-            title="Add"
-            onPress={this.placeSubmitHandler}
-          />
-        </View>
-        */}
-          {/*<InputRow
-            style={styles}
-            placeNameState={this.state.placeName}
-            changeTextFunc={this.placeNameChangedHandler}
-            pressFunc={this.placeSubmitHandler}
-          />*/}
-        {/*<View style={styles.listContainer}>*/}
-          {/*placesOutput*/}
-        {/*</View>*/}
+        <PlaceDetail 
+          selectedPlace={this.state.selectedPlace}
+          onItemDelected={this.placeDeletedHandler}
+          onModalClosed={this.modalClosedHandler}
+        />
         <InputRow
           addPlace={this.placeAddedHandler}
         />
-        <List places={this.state.places} onItemDeleted={this.placeDeletedHandler} />
+        <List 
+          places={this.state.places}
+          onItemSelected={this.placeSelectedHandler} />
       </View>
     );
   }
